@@ -1,35 +1,35 @@
 /* Generated from orogen/lib/orogen/templates/tasks/Task.cpp */
 
-#include "TMDS_Simulation.hpp"
+#include "TMDS.hpp"
 #include <lib_manager/LibManager.hpp>
 #include <mars/plugins/tether_simulation/TetherSimulation.h>
 
 using namespace mars;
 
-TMDS_Simulation::TMDS_Simulation(std::string const& name)
-    : TMDS_SimulationBase(name)
+TMDS::TMDS(std::string const& name)
+    : TMDSBase(name)
 {
 }
 
-TMDS_Simulation::~TMDS_Simulation()
+TMDS::~TMDS()
 {
 }
 
 
 
 /// The following lines are template definitions for the various state machine
-// hooks defined by Orocos::RTT. See TMDS_Simulation.hpp for more detailed
+// hooks defined by Orocos::RTT. See TMDS.hpp for more detailed
 // documentation about them.
 
-bool TMDS_Simulation::configureHook()
+bool TMDS::configureHook()
 {
-    if (! TMDS_SimulationBase::configureHook())
+    if (! TMDSBase::configureHook())
         return false;
     return true;
 }
-bool TMDS_Simulation::startHook()
+bool TMDS::startHook()
 {
-    if (! TMDS_SimulationBase::startHook())
+    if (! TMDSBase::startHook())
         return false;
     
     mars::interfaces::SimulatorInterface *simulation = Task::getSimulatorInterface();
@@ -52,19 +52,19 @@ bool TMDS_Simulation::startHook()
 
     return true;
 }
-void TMDS_Simulation::updateHook()
+void TMDS::updateHook()
 {
-    TMDS_SimulationBase::updateHook();
+    TMDSBase::updateHook();
 }
-void TMDS_Simulation::errorHook()
+void TMDS::errorHook()
 {
-    TMDS_SimulationBase::errorHook();
+    TMDSBase::errorHook();
 }
-void TMDS_Simulation::stopHook()
+void TMDS::stopHook()
 {
-    TMDS_SimulationBase::stopHook();
+    TMDSBase::stopHook();
 }
-void TMDS_Simulation::cleanupHook()
+void TMDS::cleanupHook()
 {
-    TMDS_SimulationBase::cleanupHook();
+    TMDSBase::cleanupHook();
 }

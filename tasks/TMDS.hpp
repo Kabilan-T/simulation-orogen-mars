@@ -3,12 +3,12 @@
 #ifndef MARS_TMDS_SIMULATION_TASK_HPP
 #define MARS_TMDS_SIMULATION_TASK_HPP
 
-#include "mars/TMDS_SimulationBase.hpp"
+#include "mars/TMDSBase.hpp"
 #include "Task.hpp"
 
 namespace mars{
 
-    /*! \class TMDS_Simulation
+    /*! \class TMDS
      * \brief The task context provides and requires services. It uses an ExecutionEngine to perform its functions.
      * Essential interfaces are operations, data flow ports and properties. These interfaces have been defined using the oroGen specification.
      * In order to modify the interfaces you should (re)use oroGen and rely on the associated workflow.
@@ -17,28 +17,28 @@ namespace mars{
      * The name of a TaskContext is primarily defined via:
      \verbatim
      deployment 'deployment_name'
-         task('custom_task_name','mars::TMDS_Simulation')
+         task('custom_task_name','mars::TMDS')
      end
      \endverbatim
      *  It can be dynamically adapted when the deployment is called with a prefix argument.
      */
-    class TMDS_Simulation : public TMDS_SimulationBase
+    class TMDS : public TMDSBase
     {
-	friend class TMDS_SimulationBase;
+	friend class TMDSBase;
     protected:
 
 
 
     public:
-        /** TaskContext constructor for TMDS_Simulation
+        /** TaskContext constructor for TMDS
          * \param name Name of the task. This name needs to be unique to make it identifiable via nameservices.
          * \param initial_state The initial TaskState of the TaskContext. Default is Stopped state.
          */
-        TMDS_Simulation(std::string const& name = "mars::TMDS_Simulation");
+        TMDS(std::string const& name = "mars::TMDS");
 
-        /** Default deconstructor of TMDS_Simulation
+        /** Default deconstructor of TMDS
          */
-	~TMDS_Simulation();
+	~TMDS();
 
         /** This hook is called by Orocos when the state machine transitions
          * from PreOperational to Stopped. If it returns false, then the

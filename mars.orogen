@@ -547,9 +547,12 @@ task_context "AuvMotion", subclasses: "ForceApplier" do
 
 end
 
-task_context "TMDS_Simulation", subclasses: "Plugin" do
+task_context "TMDS" do
     
     needs_configuration
+
+    # --- States ---
+    #runtime_states 'RELEASING', 'RETRIEVING'
 
     # --- Input ports ---
     input_port "winch_command", "base/samples/Joints"
