@@ -4,6 +4,7 @@
 #define MARS_TETHER_SIMULATION_TASK_HPP
 
 #include "mars/TetherBase.hpp"
+#include <mars/plugins/tether_simulation/TetherSimulation.h>
 #include "Task.hpp"
 
 namespace mars{
@@ -97,6 +98,8 @@ namespace mars{
          * before calling start() again.
          */
         void cleanupHook();
+
+        mars::plugins::tether_simulation::TetherSimulation* tether_plugin;
     };
 }
 

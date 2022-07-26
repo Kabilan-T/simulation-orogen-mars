@@ -38,10 +38,13 @@ bool Tether::startHook()
     if (Task::getPlugin("tether_simulation", TetherPluginInterface))
     {
         LOG_DEBUG("The Tether management plugin from the simulation has been obtained");
+        tether_plugin = dynamic_cast<mars::plugins::tether_simulation::TetherSimulation*>(TetherPluginInterface);
+        state(RELEASING);
     }
     else
     {
         LOG_DEBUG("Failed to obtain the Tether management plugin");
+        state(RETRIEVING);
     }
 
     return true;

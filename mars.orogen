@@ -6,6 +6,7 @@ using_library "mars_app", :typekit => false
 using_library "mars_sim", :typekit => false
 using_library "lib_manager", :typekit => false
 using_library "configmaps", :typekit => false
+using_library "tether_simulation", :typekit => false
 
 import_types_from "tasks/MarsControl.hpp"
 import_types_from "jointTypes.hpp"
@@ -552,7 +553,7 @@ task_context "Tether" do
     needs_configuration
 
     # --- States ---
-    #runtime_states 'RELEASING', 'RETRIEVING'
+    runtime_states 'RELEASING', 'RETRIEVING'
 
     # --- Input ports ---
     input_port "winch_command", "base/samples/Joints"
@@ -560,4 +561,10 @@ task_context "Tether" do
     # --- Output ports ---
     output_port "winch_state", "base/samples/Joints"
     output_port "winch_force", "base/Wrench"
+end
+
+deployment "tether" do
+    task('mars','mars::Task')
+    task('tether', 'mars::Tether')
+    add_default_logger
 end
