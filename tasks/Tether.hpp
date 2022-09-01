@@ -3,9 +3,12 @@
 #ifndef MARS_TETHER_SIMULATION_TASK_HPP
 #define MARS_TETHER_SIMULATION_TASK_HPP
 
-#include "mars/TetherBase.hpp"
-#include <mars/plugins/tether_simulation/TetherSimulation.h>
 #include "Task.hpp"
+#include "mars/TetherBase.hpp"
+#include <lib_manager/LibManager.hpp>
+#include <mars/plugins/tether_simulation/TetherSimulation.h>
+#include <mars/interfaces/sim/NodeManagerInterface.h>
+#include <atomic>
 
 namespace mars{
 
@@ -28,7 +31,8 @@ namespace mars{
 	friend class TetherBase;
     protected:
 
-
+    // thread save target speed for handover from task thread to the sim update thread
+    std::atomic<float> targetSpeed;
 
     public:
         /** TaskContext constructor for Tether
@@ -39,7 +43,22 @@ namespace mars{
 
         /** Default deconstructor of Tether
          */
-	~Tether();
+    	~Tether();
+
+        /** Implementation of dock operation */
+        void dock();
+
+        /** Implementation of undock operation */
+        void undock();
+
+        mars::interfaces::NodeId getNodeID(const std::string & link);
+
+        /**
+         * @brief mars simulator update function
+         * 
+         * @param time 
+         */
+        void update( double time );
 
         /** This hook is called by Orocos when the state machine transitions
          * from PreOperational to Stopped. If it returns false, then the

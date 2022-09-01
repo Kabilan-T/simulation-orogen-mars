@@ -688,7 +688,7 @@ void Task::move_node(::mars::Positions const & arg)
     }
 }
 
-bool Task::getPlugin(const std::string pluginName, mars::interfaces::MarsPluginTemplate * plugin)
+bool Task::getPlugin(const std::string pluginName, mars::interfaces::MarsPluginTemplate * &plugin)
 {
     bool pluginFound = false;
     plugin = libManager->getLibraryAs<mars::interfaces::MarsPluginTemplate>(pluginName);   

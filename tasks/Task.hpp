@@ -123,7 +123,7 @@ namespace mars {
 	static mars::interfaces::SimulatorInterface* getSimulatorInterface();
 	static mars::Task* getTaskInterface();
 
-        static bool getPlugin(const std::string pluginName, mars::interfaces::MarsPluginTemplate * plugin);
+        static bool getPlugin(const std::string pluginName, mars::interfaces::MarsPluginTemplate * &plugin);
 
         Task(std::string const& name = "mars::Task");
         Task(std::string const& name, RTT::ExecutionEngine* engine);

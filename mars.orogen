@@ -13,8 +13,13 @@ import_types_from "jointTypes.hpp"
 import_types_from "poseType.hpp"
 import_types_from "objectDetectionTypes.hpp"
 import_types_from "wrenchTypes.hpp"
+import_types_from "opaqueTypes.hpp"
 import_types_from "base"
+import_types_from "mars/plugins/tether_simulation/Settings.h"
 
+
+# make mars/utils/Vector usable in properties
+typekit.opaque_type 'mars/utils/Vector', 'mars/opaques/Vector3d'
 
 #Disable default deployments, most of the time stand_alone deployments are useless
 #since the simulation needs plugins within the same deployment to work
@@ -548,7 +553,7 @@ task_context "AuvMotion", subclasses: "ForceApplier" do
 
 end
 
-task_context "Tether" do
+task_context "Tether", subclasses: "Plugin" do
     
     needs_configuration
 
@@ -557,10 +562,29 @@ task_context "Tether" do
 
     # --- Input ports ---
     input_port "winch_command", "base/samples/Joints"
+    input_port "winch_speed", "float"
 
     # --- Output ports ---
     output_port "winch_state", "base/samples/Joints"
     output_port "winch_force", "base/Wrench"
+
+    output_port "rope_length", "float"
+
+    
+    # --- Operations & Properties --- #
+    operation("dock")
+    operation("undock")
+
+    property("robot_link", "std/string", "").
+      doc("robot link that is supposed to be docked")
+
+    property("tether_link", "std/string", "").
+      doc("link to attach the robot to")
+
+    property("tether_settings", "mars/plugins/tether_simulation/Params")
+
+    periodic 0.1
+
 end
 
 deployment "tether" do
