@@ -10,6 +10,7 @@ Tether::Tether(std::string const& name)
     : TetherBase(name)
 {
     targetSpeed.store(0);
+    pluginInitialized = false;
 }
 
 Tether::~Tether()
@@ -78,18 +79,17 @@ bool Tether::startHook()
     if (! TetherBase::startHook())
         return false;
     
-
+    LOG_DEBUG("Beginning of the startHook: About to get the tether plugin from Mars");
     mars::interfaces::MarsPluginTemplate *TetherPluginInterface;
     if (Task::getPlugin("tether_simulation", TetherPluginInterface))
     {
         tether_plugin = dynamic_cast<mars::plugins::tether_simulation::TetherSimulation*>(TetherPluginInterface);
-        tether_plugin->updateSettings(_tether_settings.value());
-        tether_plugin->init();
-        printf("Plugin name : %s \n",tether_plugin->getLibName().c_str());
+        
+        LOG_DEBUG("Plugin name : %s \n",tether_plugin->getLibName().c_str());
     }
     else
     {
-        printf("Failed to obtain the Tether management plugin\n");
+        LOG_DEBUG("Failed to obtain the Tether management plugin\n");
     }
 
     return true;
@@ -130,6 +130,14 @@ void  Tether::update( double time )
 {
     if(!isRunning()) return; //Seems Plugin is set up but not active yet, we are not sure that we are initialized correctly so retuning
     
+    if(!pluginInitialized)
+    {
+        tether_plugin->updateSettings(_tether_settings.value());
+        tether_plugin->init();
+        pluginInitialized = true;
+    }
+    
+
     // TODO: calculate speed properly based on time and desired speed
     float speed = targetSpeed.load();
     if (speed > 0) {
